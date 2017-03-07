@@ -1,0 +1,9 @@
+Eldpack version 3.6 (july 1)
+- www.eldpack.com - 
+
+(This zip file is supposed to go into the minecraft texturepack folder, do not unzip it!)
+
+If you accidently opened this text file and have no idea what to do with the zip file, ask for help in
+this forum thread:
+
+http://www.minecraftforum.net/viewtopic.php?f=25&t=37621

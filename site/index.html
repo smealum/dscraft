@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DScraft</title>
+	<link rel="stylesheet" href="assets/css/styles.css" media="all" />
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+		<h1 id="logo"><span class="offscreen">DScraft</span></h1>
+	</div>
+
+	<div id="content">
+		<div class="column column-75">
+			<h2>DScraft</h2>
+			<p class="column-75">DScraft is a DS homebrew adaptation of the popular game Minecraft. At the moment this is a rather complete adptation of "creative mode" (or minecraft Classic), which means there is only exploration and creation in this version. I am planning on attempting to adapt survival in future versions !<br/><br/>
+			DScraft was made by smealum alone in his spare time and is in no way associated with Minecraft or Mojang.
+			</p>
+			
+			<div class="spacer"></div>
+			
+			<h2>Instructions</h2>
+			<p class="column-75">Simply drag and drop DScraft.nds and the dscraft directory to your card. (NO NEED to transfer the separate worlds directory)<br />
+IMPORTANT - if using nitroFS version, dscraft directory MUST BE in the same directory as DScraft.nds.<br />
+if using FAT version, dscraft directory MUST BE at the root of the card.<br />
+<br />
+Included are a "worlds" directory and mapGen program. The worlds directory contains several pre-generated worlds for you to explore; simply drag and drop the files to the dscraft/worlds directory to install each one.<br />
+The mapGen program is used to generate new worlds. Simply execute it and follow the steps.<br />
+<br />
+New worlds can be installed by copying .map files to the dscraft/worlds directory.<br />
+Texture packs can be installed by unzipping them in a directory in the dscraft/packs folder.<br />
+Screenshots are stored in the dscraft/screens directory.</p>
+			
+			<div class="spacer"></div>
+			
+			<h2>Screen Shots</h2><br/>
+			<ul class="screenshot-gallery">
+
+				<li><img src="http://smealum.net/mcds/bridge.png"></li>
+				<li><img src="http://smealum.net/mcds/stairs.png"></li>
+				<li><img src="http://smealum.net/dscraft/wp-content/gallery/dscraft/scr_00021.png"></li>
+				<li><img src="http://smealum.net/mcds/newlight.png"></li>
+				<li><img src="http://smealum.net/dscraft/wp-content/gallery/dscraft2/dawnruins.png"></li>
+				<li><img src="http://smealum.net/dscraft/wp-content/gallery/dscraft2/jolicastle.png"></li>
+				<li><img src="http://smealum.net/dscraft/wp-content/gallery/dscraft2/jolipack.png"></li>
+				<li><img src="http://smealum.net/dscraft/wp-content/gallery/dscraft2/official1.png"></li>
+			</ul>
+
+			
+			<div class="spacer"></div>
+			
+			<h2>Features</h2>
+			<ul class="column-75">
+				<li>Ability to add and remove blocks</li>
+				<li>Nice terrain generation (including cliffs, plains, small forests, lakes...)</li>
+				<li>Basic cave generation</li>
+				<li>Map streaming from file, meaning really big maps can be used (1024x1024 maps are fully playable)</li>
+				<li>Texture pack support (the game's default texture pack is eldpack)</li>
+				<li>Saving</li>
+				<li>Day/night cycle, clouds, dawn/dusk, stars... (basically : nice sky )</li>
+				<li>More or less dynamic lighting system (torches !)</li>
+				<li>Basic bottom screen (working buttons, inventory)</li>
+				<li>Tons of blocks !</li>
+				<li>(Basic) Dynamic water</li>
+				<li>Hand!</li>
+			</ul>
+			
+			<div class="spacer"></div>
+			
+			<h2>Special thanks</h2>
+
+			<ul class="column-75">
+			<li>#dev-fr</li> 
+			<li>eld for his awesome textures</li>
+			<li>notch and all of mojang for creating and maintaining minecraft</li>
+			<li>boomboombass for the awesome website made under such short notice</li>
+			<li>Cyan, GBAtemp, Vloz, Sir_Voe and the two other people whose nicknames weren't in there emails for their generous donations</li>
+			</ul>
+			
+			<div class="spacer"></div>
+			
+		</div>
+		<div class="column column-25 column-right">
+
+			<h2>Download</h2>
+			<p>You can download 2 versions of the game.<br/>
+			<a href="http://smealum.net/dscraft/downloads/DScraft_310811.rar" class="arrow-link">NitroFS v310811</a><br/>
+			<a href="http://smealum.net/dscraft/downloads/DScraft_fat_310811.rar" class="arrow-link">Fat Only v310811</a><br/>
+			<a href="http://smealum.net/dscraft/downloads/packs.rar" class="arrow-link">Texture Packs</a>
+			</p>
+
+			
+			<div class="spacer"></div>
+			
+			<h2>Donate</h2>
+			<br/>
+			<form method="post" action="https://www.paypal.com/cgi-bin/webscr" class="center">
+				<input type="hidden" value="_s-xclick" name="cmd">
+				<input type="hidden" value="5UB49EHK6UXHS" name="hosted_button_id">
+				<input type="image" border="0" alt="PayPal - The safer, easier way to pay online!" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif">
+				<img width="1" height="1" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif">
+
+			</form>
+			<br/>
+			<p class="center">If you enjoy DScraft please consider donating. :)</p>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div id="footer">
+		<p class="right">All rights reserved</p>
+
+	</div>
+</div>
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-25247731-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+</body>
+</html>
