@@ -20,6 +20,13 @@ typedef struct
 	u16 count;
 }filelist_struct;
 
+/* Forward declarations for menu callbacks defined later in this file. */
+void setupButtons(filelist_struct* l, u16 index);
+void Menu_SelectScheme(API_Entity* e);
+void drawLogo(void);
+void saveSettings(void);
+
+
 filelist_struct worldList, packList;
 
 API_Entity* bottomScreen;
@@ -160,10 +167,12 @@ void RenderScene()
 			Game_ApplyMTL(blockSuperTexture);
 			if(!D3D_Screen)
 			{
-				glCallList(sceneList1);
+				if(sceneList1 != NULL)
+					glCallList(sceneList1);
 				// glCallList(sceneList2);
 			}else{
-				glCallList(subSceneList1);
+				if(subSceneList1 != NULL)
+					glCallList(subSceneList1);
 				// glCallList(subSceneList2);
 			}
 		glPopMatrix(1);
@@ -195,8 +204,13 @@ u8* loadFile(char* filename)
 {
 	FILE* file;
 	
-	NOGBA("opening...");
-	file = fopen(filename, "rb+");
+	NOGBA("opening %s", filename);
+	file = fopen(filename, "rb");
+	if(file == NULL)
+	{
+		NOGBA("missing scene file: %s", filename);
+		return NULL;
+	}
 	
 	u8* buffer;
 	long lsize;
@@ -320,14 +334,14 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 		dir=opendir(str);
 		if(dir)
 		{
-			while((ent=readdir(dir)))
+			while(dir && (ent=readdir(dir)))
 			{
 				stat(ent->d_name,&st);
 				if(((S_ISDIR(st.st_mode) && mode) || !mode || (!S_ISDIR(st.st_mode) && mode==1))
 				&& !(strlen(ent->d_name)==1 && ent->d_name[0]=='.')
 				&& !(strlen(ent->d_name)==2 && ent->d_name[0]=='.' && ent->d_name[1]=='.'))l->count++;
 			}
-			closedir(dir);
+			if(dir) closedir(dir);
 		}
 	#endif
 	#ifdef FATONLY
@@ -338,17 +352,17 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 	dir=opendir(str);
 	if(dir)
 	{
-		while((ent=readdir(dir)))
+		while(dir && (ent=readdir(dir)))
 		{
 			stat(ent->d_name,&st);
 			if(((S_ISDIR(st.st_mode) && mode) || !mode || (!S_ISDIR(st.st_mode) && mode==1))
 			&& !(strlen(ent->d_name)==1 && ent->d_name[0]=='.')
 			&& !(strlen(ent->d_name)==2 && ent->d_name[0]=='.' && ent->d_name[1]=='.'))l->count++;
 		}
-		closedir(dir);
+		if(dir) closedir(dir);
 	}
 	
-	l->list=malloc(sizeof(listFile_struct)*l->count);
+	l->list = l->count ? malloc(sizeof(listFile_struct) * l->count) : NULL;
 	if(l->list)
 	{
 		l->count=0;
@@ -356,7 +370,7 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 		#ifndef FATONLY
 			sprintf(str,"nitro:/%s/%s",ROOT,path);
 			dir=opendir(str);
-			while((ent=readdir(dir)))
+			while(dir && (ent=readdir(dir)))
 			{
 				stat(ent->d_name,&st);
 				if(((S_ISDIR(st.st_mode) && mode) || !mode || (!S_ISDIR(st.st_mode) && mode==1))
@@ -371,7 +385,7 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 					l->count++;
 				}
 			}
-			closedir(dir);
+			if(dir) closedir(dir);
 		#endif
 		
 		#ifdef FATONLY
@@ -380,7 +394,7 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 			sprintf(str,"%s/%s/%s",basePath,ROOT,path);
 		#endif
 		dir=opendir(str);
-		while((ent=readdir(dir)))
+		while(dir && (ent=readdir(dir)))
 		{
 			stat(ent->d_name,&st);
 			if(((S_ISDIR(st.st_mode) && mode) || !mode || (!S_ISDIR(st.st_mode) && mode==1))
@@ -395,7 +409,7 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 				l->count++;
 			}
 		}
-		closedir(dir);
+		if(dir) closedir(dir);
 	}
 }
 

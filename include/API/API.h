@@ -133,6 +133,7 @@ void API_CleanUp();
 void API_SetX(API_Entity* e, s16 x);
 void API_ToggleShadow(API_Entity* e);
 void API_UpdateScene(API_EntList *cl);
+void API_ComputeDirections(API_EntList *cl, u8 force);
 void API_SetAlpha(API_Entity* e, u8 alpha);
 void API_SetSize(API_Entity* e, u16 x, u16 y);
 void API_SetAlphaSons(API_Entity* f, u8 alpha);

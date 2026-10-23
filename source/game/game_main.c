@@ -1,5 +1,7 @@
 #include "game/game_main.h"
 
+int gameCameraFov = 60;
+
 #define minus(a) (((a)<0)?((a)+1):((a)-1))
 	
 void Game_Init(void)
@@ -104,7 +106,7 @@ void Game_Init(void)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	// gluPerspective(70, 256.0 / 192.0, 0.1, 100);
-	gluPerspective(70, 256.0 / 192.0, 0.1, 10000);
+	gluPerspective(gameCameraFov, 256.0 / 192.0, 0.1, 10000);
 	
 	gluLookAt(	0.0, 0.0, 0.0,		//camera possition
 				0.0, 1.0, 0.0,		//look at
@@ -148,12 +150,7 @@ void Game_Init(void)
 	initPlayer(&Player);
 	#ifdef SURVIVAL
 		initMobs();
-		addMob(&map, Player.position, 0);
-		addMob(&map, Player.position, 0);
-		addMob(&map, Player.position, 0);
-		addMob(&map, Player.position, 0);
-		addMob(&map, Player.position, 0);
-		addMob(&map, Player.position, 0);
+		/* Keep the initial active mob count low for DS memory and frame time. */
 		addMob(&map, Player.position, 0);
 		addMob(&map, Player.position, 0);
 		addMob(&map, Player.position, 0);
@@ -200,7 +197,7 @@ void Game_Frame(void)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(70, 256.0 / 192.0, 0.1, 10000);
+	gluPerspective(gameCameraFov, 256.0 / 192.0, 0.1, 10000);
 				
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();

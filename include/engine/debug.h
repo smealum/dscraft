@@ -13,17 +13,17 @@ int glob_time;
 
 #define     PROF_START()                \
 do {                                \
-    TIMER2_DATA = 0; TIMER3_DATA = 0;   \
-    TIMER3_CR = TIMER_ENABLE | TIMER_CASCADE | TIMER_IRQ_REQ; \
-    TIMER2_CR = TIMER_ENABLE;    \
+    TIMER_DATA(2) = 0; TIMER_DATA(3) = 0;   \
+    TIMER_CR(3) = TIMER_ENABLE | TIMER_CASCADE | TIMER_IRQ_REQ; \
+    TIMER_CR(2) = TIMER_ENABLE;    \
 } while(0)
 
-#define PROF_GET(_time) _time = ( TIMER3_DATA << 16 ) | TIMER2_DATA;
+#define PROF_GET(_time) _time = ( TIMER_DATA(3) << 16 ) | TIMER_DATA(2);
 
 #define     PROF_END(_time)             \
 do {                                \
-    _time = ( TIMER3_DATA << 16 ) | TIMER2_DATA;  \
-    TIMER2_CR = 0; TIMER3_CR = 0;    \
+    _time = ( TIMER_DATA(3) << 16 ) | TIMER_DATA(2);  \
+    TIMER_CR(2) = 0; TIMER_CR(3) = 0;    \
 } while(0)
 
 

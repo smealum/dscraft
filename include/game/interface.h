@@ -31,4 +31,6 @@ void initItemBar(void);
 void initInterface(void);
 bool updateInterface(void);
 
+void loadInterface(char* filename, u8 prio);
+
 #endif

@@ -1,4 +1,5 @@
 #include "common/general.h"
+#include "engine/screenshot.h"
 #include "common/bmp.h"
 
 void wait();

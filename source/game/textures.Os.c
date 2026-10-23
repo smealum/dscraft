@@ -1,5 +1,12 @@
 #include "game/game_main.h"
 
+/* Internal texture loaders are defined later in this file. */
+void Game_LoadAlphaTexture(char* filename, char* directory, MTL_img* mtl, u8 alpha);
+void Game_LoadAlphaMask(char* filename, char* directory, MTL_img* mtl);
+void Game_LoadAlphaMaskTexture(char* filename, char* directory, MTL_img* mtl, u8* alpha);
+void Game_LoadMaskedTexture(char* filename, char* directory, MTL_img* mtl);
+void freePCX(struct gl_texture_t* pcx);
+
 void Texture_GetGlWL(u16 width, u16 height, u8* w, u8* l)
 {
 	switch(width)

@@ -1,0 +1,45 @@
+name: Build Nintendo DS ROM
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - survival-features
+    paths:
+      - '**.c'
+      - '**.h'
+      - 'Makefile'
+      - 'data/**'
+      - 'icon.bmp'
+      - 'include/**'
+      - 'source/**'
+      - 'nitrofiles/**'
+      - 'SURVIVAL_MODE_PLAN.md'
+      - 'STRUCTURE_GENERATION_SPEC.md'
+      - '.github/workflows/build-nds.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    container:
+      image: devkitpro/devkitarm:latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Build ROM
+        run: make -j2
+
+      - name: Verify ROM output
+        run: |
+          test -n "$(find . -maxdepth 1 -name '*.nds' -print -quit)"
+          ls -lh ./*.nds
+
+      - name: Upload ROM
+        uses: actions/upload-artifact@v4
+        with:
+          name: dscraft-nds
+          path: '*.nds'
+          if-no-files-found: error
+          retention-days: 14

@@ -4,8 +4,24 @@
 #define LADDERTYPE 40
 #define DOORTYPE 44
 
-#define BLOCKTEXTURES 45
-#define BLOCKS 46
+#define BLOCKTEXTURES 61
+#define BLOCKS 76
+#define COAL_ORE 70
+#define IRON_ORE 71
+#define GOLD_ORE 72
+#define REDSTONE_ORE 73
+#define DIAMOND_ORE 74
+#define LAPIS_ORE 75
+#define OAK_PLANKS 60
+#define SPRUCE_PLANKS 61
+#define BIRCH_PLANKS 62
+#define JUNGLE_PLANKS 63
+#define ACACIA_PLANKS 64
+#define OAK_LOG 65
+#define SPRUCE_LOG 66
+#define BIRCH_LOG 67
+#define JUNGLE_LOG 68
+#define ACACIA_LOG 69
 
 #ifdef FOGLIGHT
 	#define LIGHTAMBIENT 4
@@ -481,6 +497,20 @@ static inline void releaseQuad(quad_struct** q)
 	}//test
 }
 
+/* Public map editing/render helpers used by controls.c. */
+void removeBlock(map_struct* m, int i, int j, int k, bool fix);
+void changeBlock(map_struct* m, int i, int j, int k, u8 type);
+void addQuad(quadList_struct* ql, map_struct* m, u8 direction, u8 light, u32 bid, u8* data, u16 i, u16 j, u16 k);
+bool addWater(map_struct* m, u16 i, u16 j, u16 k, u8 t);
+
+void updateLightMap(void);
+void initFilesystem(void);
+void setFog(u8 mode);
+void loadTestMap(map_struct* m);
+void freeMap(map_struct* m);
+void freeQuadCache(void);
+void freeLightCache(void);
+void drawTestCube(void);
 void drawTestMap(map_struct* m);
 void globalSaveMap(map_struct* m);
 void createTestMap(map_struct* m);
