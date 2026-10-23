@@ -4,8 +4,14 @@
 #define LADDERTYPE 40
 #define DOORTYPE 44
 
-#define BLOCKTEXTURES 55
-#define BLOCKS 70
+#define BLOCKTEXTURES 61
+#define BLOCKS 76
+#define COAL_ORE 70
+#define IRON_ORE 71
+#define GOLD_ORE 72
+#define REDSTONE_ORE 73
+#define DIAMOND_ORE 74
+#define LAPIS_ORE 75
 #define OAK_PLANKS 60
 #define SPRUCE_PLANKS 61
 #define BIRCH_PLANKS 62
