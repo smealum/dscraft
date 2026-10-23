@@ -503,6 +503,7 @@ void changeBlock(map_struct* m, int i, int j, int k, u8 type);
 void addQuad(quadList_struct* ql, map_struct* m, u8 direction, u8 light, u32 bid, u8* data, u16 i, u16 j, u16 k);
 bool addWater(map_struct* m, u16 i, u16 j, u16 k, u8 t);
 
+void updateLightMap(void);
 void drawTestMap(map_struct* m);
 void globalSaveMap(map_struct* m);
 void createTestMap(map_struct* m);
