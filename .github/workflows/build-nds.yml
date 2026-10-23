@@ -13,6 +13,8 @@ on:
       - 'include/**'
       - 'source/**'
       - 'nitrofiles/**'
+      - 'SURVIVAL_MODE_PLAN.md'
+      - 'STRUCTURE_GENERATION_SPEC.md'
       - '.github/workflows/build-nds.yml'
 
 jobs:
