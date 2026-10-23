@@ -25,7 +25,7 @@
 #include <malloc.h>
 #include <unistd.h>
 
-#include "creeper_bin.h"
+/* Optional creeper binary header is absent from this repository. */
 
 #include "fat/fatfile.h"
 
