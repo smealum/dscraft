@@ -72,7 +72,12 @@ void* DS_OpenFile (char* filename, char* dir, bool bufferize, bool binary)
 	else file = fopen(filename, "rb+");
 	//DS_Debug("done.");
 	
-		if(file == NULL){NOGBA("error: couldn't locate \"%s\" in %s ! (%s)\n", filename, dir, path);}
+	if(file == NULL)
+	{
+		NOGBA("error: couldn't locate \"%s\" in %s ! (%s)\n", filename, dir, path);
+		chdir(path);
+		return NULL;
+	}
 	
 	if(bufferize == true)
 	{
