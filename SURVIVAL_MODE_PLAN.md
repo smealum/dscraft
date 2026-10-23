@@ -20,12 +20,13 @@ This fork is based on the original DScraft codebase. The goal is a lightweight, 
 - Improve existing `SURVIVAL`-guarded mob logic in small steps: stable wandering, player awareness, then contact damage.
 - Reuse existing collision/rendering and avoid expensive pathfinding.
 - Keep entity counts low and cap active mobs to protect frame rate and memory.
+- Pillagers, Blazes, and Wither Skeletons are later mob types; do not reuse the creeper model/texture as if it were their final art.
 
 ### 4. Biomes
 Build a small set of visually distinct, deterministic biomes using the existing world-generation and block systems:
 - **Plains** — open grassy terrain, scattered trees, village-friendly.
 - **Forest** — denser trees and green ground.
-- **Desert** — sand, sparse vegetation, potential desert structures.
+- **Desert** — sand, sparse vegetation, desert temples.
 - **Taiga** — conifer-like tree patterns and cooler palette where supported.
 - **Swamp** — low, wet terrain and sparse trees if generation budget permits.
 - **Snow** — snow-covered surfaces and sparse conifers, subject to existing block/texture support.
@@ -33,10 +34,15 @@ Build a small set of visually distinct, deterministic biomes using the existing 
 Generation should use seeded, low-cost rules and smooth transitions between regions. Biomes must not require large extra lookup tables or expensive per-block calculations.
 
 ### 5. Structures and world landmarks
-- Small houses, huts, wells, ruins, and simple towers assembled from existing blocks.
-- Structure placement should check terrain height, world bounds, and overlap before writing blocks.
-- Use deterministic placement based on the world seed so structures are reproducible.
-- Keep templates compact and limit how many are generated per region.
+Implement structures as small, deterministic block templates, not as a large procedural simulation:
+- **Desert temple** — compact sandstone pyramid, hidden treasure room, pressure plate/TNT trap only if existing block and redstone support can safely represent it. Otherwise use a visual trap room without functional TNT.
+- **Village** — small set of houses, paths, a well and tiny farms; later add biome-specific house palettes and more varied street layouts.
+- **Pillager outpost** — wooden watchtower, small camp and loot chest; pillager AI is a separate task.
+- **Stronghold** — underground stone-brick corridors and rooms, library and portal-room landmark; Eye-of-Ender search mechanics are a later feature.
+- **Nether fortress** — Nether-brick bridge/corridor templates, with fortress generation gated on a real Nether dimension or a clearly marked prototype area.
+- Also allow small huts, wells, ruins and towers from the same template system.
+
+**Placement requirements:** verify all template coordinates against map bounds, inspect terrain height and flatness, reject collisions/overlap, and never overwrite bedrock or the player. Use a stable world/region seed so reopening or streaming an area does not duplicate structures. Limit structure count and template size for DS memory and frame-time budgets.
 
 ### 6. Villages: classic baseline plus expanded style
 - Generate small villages in suitable flat/plains-like areas first.
@@ -56,11 +62,17 @@ Generation should use seeded, low-cost rules and smooth transitions between regi
 - Test on emulator and DSi hardware where available.
 - Do not claim a playable `.nds` build until it compiles and has been smoke-tested with the required Nintendo DS toolchain.
 
-## Implementation notes
-- The player update already owns collision, gravity, water, and ladder state; sprint should affect horizontal input before collision resolution.
+## Technical findings and implementation order
+
+- The current startup path in `source/game/game_main.c` calls `loadTestMap(&map)`; `source/game/map.c` labels `generateTestMap` as invalid/obsolete. This means structures cannot responsibly be added by simply sprinkling blocks into a supposed live procedural generator: a reliable world-generation/structure-generation entry point must be designed first.
+- `changeBlock` updates existing block/render state but also has player-collision and cluster assumptions. Bulk structure placement should be a dedicated, bounds-checked generation operation before final display-list generation, rather than thousands of runtime edits while the player is nearby.
+- The existing map is vertically limited to 16 blocks in the current load path. Full strongholds and Nether fortresses need a deliberate vertical/world-layout decision; they should not be forced into the current map and silently clipped.
 - Existing mobs are guarded by `#ifdef SURVIVAL`; preserve compatibility with non-survival builds.
-- The existing map/world generation must be extended rather than replaced wholesale. Keep generation deterministic and bounded to fit handheld memory and frame-time budgets.
-- Prefer existing blocks and textures first; new assets can be added only when the asset pipeline and memory budget are understood.
+- Prefer existing blocks and textures first; verify block IDs and texture availability before assigning sandstone, stone bricks, Nether bricks, chests, TNT, or portal blocks.
+- Keep generation deterministic and bounded. Avoid dynamic allocations per block and avoid expensive pathfinding.
+
+Recommended order: (1) confirm block IDs and map-generation lifecycle, (2) add deterministic structure-template primitives with bounds/overlap checks, (3) prototype a small desert temple and village, (4) extend terrain/biomes, (5) add outpost and stronghold templates, (6) implement a Nether dimension before fortress gameplay, then (7) add survival HUD/mechanics and specialized mobs.
 
 ## Current status
-This document is a roadmap only. It does not claim that hunger, sprinting, new mob AI, biomes, structures, or villages are implemented yet. Java 1.0-inspired survival is the baseline; modern-style village variety is an expanded goal, constrained by DSi hardware.
+
+This is still planning and repository analysis, not a playable implementation. No structures have been added to generated worlds yet, and no `.nds` build has been produced or tested. The repository's legacy map loading/generation architecture must be addressed before these structures can appear reliably. Java 1.0-inspired survival is the baseline; selected later structures and expanded villages are constrained by DSi hardware.
