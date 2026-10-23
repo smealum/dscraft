@@ -17,21 +17,13 @@ u8 fsFormat;
 
 void initFilesystem(void)
 {
-	switch(fsMode)
-	{
-		case 1:
-			openMap=&openMapNOCASH;
-			readClusterColumn=&readClusterColumnNOCASH;
-			writeClusterColumn=&writeClusterColumnNOCASH;
-			fsFormat=0;
-			break;
-		default:
-			openMap=&openMap2048;
-			readClusterColumn=&readClusterColumn2048;
-			writeClusterColumn=&writeClusterColumn2048;
-			fsFormat=1;
-			break;
-	}
+	/* Use the stdio-backed map reader on current libnds/libfat. The legacy
+	 * sector/FAT internals used by the 2048/1024/512 readers are not exported
+	 * by modern devkitPro libraries. stdio still streams one column at a time. */
+	openMap=&openMapNOCASH;
+	readClusterColumn=&readClusterColumnNOCASH;
+	writeClusterColumn=&writeClusterColumnNOCASH;
+	fsFormat=0;
 }
 
 void initLightMap(void)
