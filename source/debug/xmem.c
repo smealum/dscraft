@@ -10,7 +10,7 @@
 #include "common/general.h"
 
 extern u8 __end__[];        // end of static code and data
-extern u8 __eheap_end[];    // farthest point to which the heap will grow
+/* Main RAM ends at 0x02400000 on the DS ARM9 address map. */
 
 u8 *getHeapStart() {
 	return __end__;
@@ -21,7 +21,7 @@ u8 *getHeapEnd() {
 }
 
 u8 *getHeapLimit() {
-	return __eheap_end;
+	return (u8*)0x02400000;
 }
 
 size_t getMemUsed() {
