@@ -48,23 +48,27 @@ int main(int argc, char **argv)
 	int bg4 = bgInitSub(3, BgType_Bmp8, BgSize_B8_256x256, 0,0);
 	
 	u8 *buffer;
+	/* Splash art is optional; missing assets must not block menu startup. */
 	buffer=DS_OpenFile("spalsh1.pcx", "", true, true);
-	sImage pcx; 
-	int t=loadPCX((u8*)buffer, &pcx);
-
-
-	dmaCopy(pcx.image.data8, bgGetGfxPtr(bg3), 256*192);
-	dmaCopy(pcx.palette, BG_PALETTE, 256*2);
-	imageDestroy(&pcx);
+	if(buffer)
+	{
+		sImage pcx;
+		loadPCX((u8*)buffer, &pcx);
+		dmaCopy(pcx.image.data8, bgGetGfxPtr(bg3), 256*192);
+		dmaCopy(pcx.palette, BG_PALETTE, 256*2);
+		imageDestroy(&pcx);
+		free(buffer);
+	}
 	buffer=DS_OpenFile("spalsh2.pcx", "", true, true);
-	sImage pcx2; 
-	loadPCX((u8*)buffer, &pcx2);
-
-	NOGBA("D");
-
-	dmaCopy(pcx2.image.data8, bgGetGfxPtr(bg4), 256*192);
-	dmaCopy(pcx2.palette, BG_PALETTE_SUB, 256*2);
-	imageDestroy(&pcx2);
+	if(buffer)
+	{
+		sImage pcx2;
+		loadPCX((u8*)buffer, &pcx2);
+		dmaCopy(pcx2.image.data8, bgGetGfxPtr(bg4), 256*192);
+		dmaCopy(pcx2.palette, BG_PALETTE_SUB, 256*2);
+		imageDestroy(&pcx2);
+		free(buffer);
+	}
 
 	int te=0;
     while(te<60*2 && !(keysUp())){te++;swiWaitForVBlank();scanKeys();}
