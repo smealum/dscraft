@@ -154,3 +154,10 @@ This section records the user's requested feature scope. It is a target, not a c
 - **One shared chest type** usable with all five wood families; do not create five separate chest variants.
 - **Ladders** as a climbable block, reusing the existing ladder movement behavior if available.
 - Confirm both blocks have unique IDs, valid atlas tiles, inventory entries, placement/removal support, and save/load compatibility before calling them complete.
+
+
+### Vertical world and underground resources
+- Target sea level is Y=60, with about 60 blocks of terrain above it and 60 blocks below it (roughly Y=0–120).
+- Retain cave generation and add deterministic coal, iron, gold, redstone, and diamond ore generation, with optional lapis.
+- Carve caves and place ores before final mesh/lighting generation; persist generated chunks so streaming never rerolls ores or overwrites player edits.
+- Implementation details and DS memory constraints are in [WORLD_GENERATION_ORE_SPEC.md](WORLD_GENERATION_ORE_SPEC.md).
