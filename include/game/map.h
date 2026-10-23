@@ -4,8 +4,18 @@
 #define LADDERTYPE 40
 #define DOORTYPE 44
 
-#define BLOCKTEXTURES 45
-#define BLOCKS 46
+#define BLOCKTEXTURES 55
+#define BLOCKS 70
+#define OAK_PLANKS 60
+#define SPRUCE_PLANKS 61
+#define BIRCH_PLANKS 62
+#define JUNGLE_PLANKS 63
+#define ACACIA_PLANKS 64
+#define OAK_LOG 65
+#define SPRUCE_LOG 66
+#define BIRCH_LOG 67
+#define JUNGLE_LOG 68
+#define ACACIA_LOG 69
 
 #ifdef FOGLIGHT
 	#define LIGHTAMBIENT 4
