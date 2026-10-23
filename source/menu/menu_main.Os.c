@@ -202,8 +202,13 @@ u8* loadFile(char* filename)
 {
 	FILE* file;
 	
-	NOGBA("opening...");
-	file = fopen(filename, "rb+");
+	NOGBA("opening %s", filename);
+	file = fopen(filename, "rb");
+	if(file == NULL)
+	{
+		NOGBA("missing scene file: %s", filename);
+		return NULL;
+	}
 	
 	u8* buffer;
 	long lsize;
