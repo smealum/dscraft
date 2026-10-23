@@ -1,5 +1,7 @@
 #include "game/game_main.h"
 
+int gameCameraFov = 60;
+
 #define minus(a) (((a)<0)?((a)+1):((a)-1))
 	
 void Game_Init(void)
