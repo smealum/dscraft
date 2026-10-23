@@ -1,6 +1,24 @@
-# Survival, biomes, villages, and structures roadmap
+# Lightweight Minecraft 1.1-inspired DS Edition
 
-This fork is based on the original DScraft codebase. The goal is a lightweight, Java Edition 1.0-inspired survival game with selected expanded/modern village and world-generation ideas, designed for Nintendo DS/DSi hardware rather than a full PC feature port.
+This fork targets a compact, Minecraft Java Edition 1.1-inspired survival experience for Nintendo DS/DSi hardware. Keep features only when they fit the existing renderer, save format, and memory budget.
+
+## Scope and performance rules
+
+- Prefer small, static features over large simulation systems.
+- Keep the starting active mob count low; current startup spawns four.
+- Defer high-cost world generation, large underground structures, complex villager AI/trading, and heavy pathfinding unless profiling proves they fit.
+- Zoom is implemented with SELECT + UP/DOWN by changing the camera field of view.
+- New block types require verified texture-atlas entries and compatible save/render handling. Do not assign IDs to placeholder texture entries and call them finished blocks.
+- Build and test with devkitPro/devkitARM and an emulator or real DSi before calling any feature complete.
+
+## Practical priorities
+
+1. Preserve reliable movement, block placement, saving, and loading.
+2. Prefer low-cost additions that reuse existing assets and renderer paths.
+3. Add small, static structures only if the world-generation lifecycle supports them safely.
+4. Add new blocks only alongside actual atlas textures and verified block/item IDs.
+5. Defer hunger/sprint systems, large biome/structure generation, trading, and other costly mechanics until a performance baseline is measured.
+
 
 ## Feature roadmap
 
