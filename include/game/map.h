@@ -504,6 +504,13 @@ void addQuad(quadList_struct* ql, map_struct* m, u8 direction, u8 light, u32 bid
 bool addWater(map_struct* m, u16 i, u16 j, u16 k, u8 t);
 
 void updateLightMap(void);
+void initFilesystem(void);
+void setFog(u8 mode);
+void loadTestMap(map_struct* m);
+void freeMap(map_struct* m);
+void freeQuadCache(void);
+void freeLightCache(void);
+void drawTestCube(void);
 void drawTestMap(map_struct* m);
 void globalSaveMap(map_struct* m);
 void createTestMap(map_struct* m);
