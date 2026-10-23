@@ -1849,7 +1849,7 @@ void generateQuads(map_struct* m, clusterColumn_struct* cC, u8* t, u16 x, u16 y)
 					if(*d>=WATERTYPE)
 					{
 						ql=&c->specialList;
-						if(((*t)&63)!=2 || *d>WATERTYPE)addWater(m, x+i, y+j, k, *d);//à optimisay //pas sûr que la nouvelle condition corrige tout
+						if(((*t)&63)!=2 || *d>WATERTYPE)addWater(m, x+i, y+j, k, *d);//Ã  optimisay //pas sÃ»r que la nouvelle condition corrige tout
 					}else ql=&c->quadList;
 					if(*d>=LADDERTYPE && *d<LADDERTYPE+4+16)
 					{
@@ -2568,6 +2568,47 @@ void loadTestMap(map_struct* m)
 	}
 }
 
+/* Deterministic ore pass: coordinates, rather than runtime RNG, keep ore
+ * locations stable when a column is streamed out and back in. The legacy
+ * world file stores 16 four-block clusters vertically (64 blocks total). */
+static u32 oreHash(u32 x, u32 y, u32 z)
+{
+	u32 h = x * 0x8da6b343u ^ y * 0xd8163841u ^ z * 0xcb1ab31fu ^ 0x9e3779b9u;
+	h ^= h >> 16;
+	h *= 0x7feb352du;
+	h ^= h >> 15;
+	h *= 0x846ca68bu;
+	h ^= h >> 16;
+	return h;
+}
+
+static void generateOres(clusterColumn_struct* c, u16 columnX, u16 columnY)
+{
+	int x, y, z;
+	for(z = 1; z < 64; z++)
+	{
+		for(y = 0; y < CLUSTERSIZE; y++)
+		{
+			for(x = 0; x < CLUSTERSIZE; x++)
+			{
+				u32 index = x + y * CLUSTERSIZE + z * CLUSTERSIZE * CLUSTERSIZE;
+				u32 h;
+				u32 roll;
+				if(c->data[index] != 1) continue; /* stone only */
+				h = oreHash((u32)columnX * CLUSTERSIZE + x,
+				            (u32)columnY * CLUSTERSIZE + y, (u32)z);
+				roll = h % 10000;
+				if(z < 60 && roll < 420) c->data[index] = COAL_ORE;
+				else if(z < 48 && roll < 600) c->data[index] = IRON_ORE;
+				else if(z < 32 && roll < 650) c->data[index] = GOLD_ORE;
+				else if(z < 24 && roll < 700) c->data[index] = REDSTONE_ORE;
+				else if(z < 16 && roll < 735) c->data[index] = DIAMOND_ORE;
+				else if(z < 36 && roll < 770) c->data[index] = LAPIS_ORE;
+			}
+		}
+	}
+}
+
 void readClusterColumn2048(map_struct* m, u16 i, u16 j, clusterColumn_struct* c, u8* t, void* f)
 {
 	PROF_START();
@@ -2576,6 +2617,7 @@ void readClusterColumn2048(map_struct* m, u16 i, u16 j, clusterColumn_struct* c,
 	int time; PROF_END(time);
 	addValue(&streamRead,time);
 	PROF_START();
+	generateOres(c, i, j);
 	c->changed=0;
 	generateQuads(m, c, t, i, j); // ADD SUPPORT FOR WALL GENERATION (done ?)
 	PROF_END(time);
@@ -2593,6 +2635,7 @@ void readClusterColumn1024(map_struct* m, u16 i, u16 j, clusterColumn_struct* c,
 	int time; PROF_END(time);
 	addValue(&streamRead,time);
 	PROF_START();
+	generateOres(c, i, j);
 	c->changed=0;
 	generateQuads(m, c, t, i, j); // ADD SUPPORT FOR WALL GENERATION (done ?)
 	PROF_END(time);
@@ -2609,6 +2652,7 @@ void readClusterColumn512(map_struct* m, u16 i, u16 j, clusterColumn_struct* c, 
 	int time; PROF_END(time);
 	addValue(&streamRead,time);
 	PROF_START();
+	generateOres(c, i, j);
 	c->changed=0;
 	generateQuads(m, c, t, i, j); // ADD SUPPORT FOR WALL GENERATION (done ?)
 	PROF_END(time);
@@ -2622,6 +2666,7 @@ void readClusterColumnNOCASH(map_struct* m, u16 i, u16 j, clusterColumn_struct* 
 	fread(c,(4*4*4)*16,1,f);
 	fread(t,(4*4*4)*16,1,f);
 	// PROF_START();
+	generateOres(c, i, j);
 	c->changed=0;
 	generateQuads(m, c, t, i, j); // ADD SUPPORT FOR WALL GENERATION (done ?)
 	// int time; PROF_END(time);
