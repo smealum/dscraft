@@ -20,17 +20,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkitarm:latest
     steps:
       - name: Check out source
         uses: actions/checkout@v4
 
-      - name: Install devkitPro Nintendo DS toolchain
-        uses: devkitPro/pacman-action@v1
-        with:
-          packages: nds-dev
+      - name: Install Nintendo DS development libraries
+        run: |
+          dkp-pacman -Sy --noconfirm
+          dkp-pacman -S --noconfirm nds-dev
 
       - name: Build ROM
-        run: make
+        run: make -j2
+
+      - name: Verify ROM output
+        run: |
+          test -n "$(find . -maxdepth 1 -name '*.nds' -print -quit)"
+          ls -lh ./*.nds
 
       - name: Upload ROM
         uses: actions/upload-artifact@v4
