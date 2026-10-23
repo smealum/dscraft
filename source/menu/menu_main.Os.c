@@ -167,10 +167,12 @@ void RenderScene()
 			Game_ApplyMTL(blockSuperTexture);
 			if(!D3D_Screen)
 			{
-				glCallList(sceneList1);
+				if(sceneList1 != NULL)
+					glCallList(sceneList1);
 				// glCallList(sceneList2);
 			}else{
-				glCallList(subSceneList1);
+				if(subSceneList1 != NULL)
+					glCallList(subSceneList1);
 				// glCallList(subSceneList2);
 			}
 		glPopMatrix(1);
