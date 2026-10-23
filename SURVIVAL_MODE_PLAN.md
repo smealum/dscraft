@@ -94,3 +94,28 @@ Recommended order: (1) confirm block IDs and map-generation lifecycle, (2) add d
 ## Current status
 
 This is still planning and repository analysis, not a playable implementation. No structures have been added to generated worlds yet, and no `.nds` build has been produced or tested. The repository's legacy map loading/generation architecture must be addressed before these structures can appear reliably. Java 1.0-inspired survival is the baseline; selected later structures and expanded villages are constrained by DSi hardware.
+
+
+## RAM rendering window and SD-backed world storage
+
+The intended storage model for a large world is **streamed world data on SD, active render window in RAM**. Do not allocate a full 1024x1024x16 block array.
+
+### Existing engine support
+
+- `map_struct` stores a fixed `superCluster[32][32]` working window plus four 32-column transition strips.
+- `loadTestMap()` reads the current window and transition columns through the selected `readClusterColumn` backend. The map header and file handle are opened through the existing filesystem layer.
+- The renderer addresses world positions relative to `map.offset`; movement code shifts the window and reads new edge columns as the player approaches its boundary.
+- The existing cluster-column readers include 2048-, 1024-, 512-byte and No$GBA variants. The file format/backend must match the world being opened; do not assume all formats are interchangeable.
+
+### Required behavior for a 1024x1024 world
+
+1. Keep only the current 32x32 cluster-column window and transition strips resident; load edge columns from SD as the player crosses a window boundary.
+2. Save changed columns before reusing their memory, then read the incoming column. Never discard a changed column silently.
+3. Treat SD reads/writes as slow operations: stream at boundary crossings, not per rendered block or every frame. If possible, show a short loading pause rather than blocking repeatedly during movement.
+4. Use deterministic world generation keyed by world seed and column coordinates so a missing/uninitialized column can be generated once, persisted, and reproduced consistently. Do not regenerate a modified column on each visit.
+5. Bound all world coordinates to the map header dimensions and validate the selected storage format before reading.
+6. Profile the existing 32x32 window on real hardware. It represents roughly 128x128 horizontal blocks when each cluster column covers four blocks; this is a RAM window, not the entire world.
+
+### Current limitation
+
+The streaming-window structure already exists in the legacy engine, but this does **not** by itself create a generated 1024x1024 world. The current startup path opens an existing map via `loadTestMap()`, and the vertical dimension is still hard-coded to 16 in its `initMap()` call. A 1024x1024 world requires a compatible map file/header, tested edge-window updates and persistence, plus a generation or conversion path. No ROM build or runtime test has been performed for this design.
