@@ -2961,6 +2961,11 @@ void writeMapHeader(map_struct* m)
 	}
 }
 
+/* Legacy save-lock hooks were referenced here but never implemented. The
+ * filesystem calls are synchronous in this build, so these remain no-ops. */
+static void startSave(void) {}
+static void endSave(void) {}
+
 void globalSaveMap(map_struct* m)
 {
 	startSave();
