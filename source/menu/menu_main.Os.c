@@ -332,14 +332,14 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 		dir=opendir(str);
 		if(dir)
 		{
-			while((ent=readdir(dir)))
+			while(dir && (ent=readdir(dir)))
 			{
 				stat(ent->d_name,&st);
 				if(((S_ISDIR(st.st_mode) && mode) || !mode || (!S_ISDIR(st.st_mode) && mode==1))
 				&& !(strlen(ent->d_name)==1 && ent->d_name[0]=='.')
 				&& !(strlen(ent->d_name)==2 && ent->d_name[0]=='.' && ent->d_name[1]=='.'))l->count++;
 			}
-			closedir(dir);
+			if(dir) closedir(dir);
 		}
 	#endif
 	#ifdef FATONLY
@@ -350,17 +350,17 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 	dir=opendir(str);
 	if(dir)
 	{
-		while((ent=readdir(dir)))
+		while(dir && (ent=readdir(dir)))
 		{
 			stat(ent->d_name,&st);
 			if(((S_ISDIR(st.st_mode) && mode) || !mode || (!S_ISDIR(st.st_mode) && mode==1))
 			&& !(strlen(ent->d_name)==1 && ent->d_name[0]=='.')
 			&& !(strlen(ent->d_name)==2 && ent->d_name[0]=='.' && ent->d_name[1]=='.'))l->count++;
 		}
-		closedir(dir);
+		if(dir) closedir(dir);
 	}
 	
-	l->list=malloc(sizeof(listFile_struct)*l->count);
+	l->list = l->count ? malloc(sizeof(listFile_struct) * l->count) : NULL;
 	if(l->list)
 	{
 		l->count=0;
@@ -368,7 +368,7 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 		#ifndef FATONLY
 			sprintf(str,"nitro:/%s/%s",ROOT,path);
 			dir=opendir(str);
-			while((ent=readdir(dir)))
+			while(dir && (ent=readdir(dir)))
 			{
 				stat(ent->d_name,&st);
 				if(((S_ISDIR(st.st_mode) && mode) || !mode || (!S_ISDIR(st.st_mode) && mode==1))
@@ -383,7 +383,7 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 					l->count++;
 				}
 			}
-			closedir(dir);
+			if(dir) closedir(dir);
 		#endif
 		
 		#ifdef FATONLY
@@ -392,7 +392,7 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 			sprintf(str,"%s/%s/%s",basePath,ROOT,path);
 		#endif
 		dir=opendir(str);
-		while((ent=readdir(dir)))
+		while(dir && (ent=readdir(dir)))
 		{
 			stat(ent->d_name,&st);
 			if(((S_ISDIR(st.st_mode) && mode) || !mode || (!S_ISDIR(st.st_mode) && mode==1))
@@ -407,7 +407,7 @@ void listFiles(char* path, filelist_struct* l, API_Entity* father, API_function 
 				l->count++;
 			}
 		}
-		closedir(dir);
+		if(dir) closedir(dir);
 	}
 }
 
