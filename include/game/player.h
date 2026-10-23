@@ -35,4 +35,6 @@ bool noclip;
 u32 testCursor, testCursorI, testCursorJ, testCursorK;
 u8 cursorBlock;
 
+void testPlane(map_struct* m, vect3D point, vect3D* vector);
+
 #endif
