@@ -2594,7 +2594,7 @@ static void generateOres(clusterColumn_struct* c, u16 columnX, u16 columnY)
 				u32 index = x + y * CLUSTERSIZE + z * CLUSTERSIZE * CLUSTERSIZE;
 				u32 h;
 				u32 roll;
-				if(c->data[index] != 1) continue; /* stone only */
+				if(c->data[index] != 3) continue; /* block 3 is stone in this atlas */
 				h = oreHash((u32)columnX * CLUSTERSIZE + x,
 				            (u32)columnY * CLUSTERSIZE + y, (u32)z);
 				roll = h % 10000;
