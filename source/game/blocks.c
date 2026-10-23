@@ -55,12 +55,12 @@ const blockTex_struct blockTextures[]={(blockTex_struct){2,0},
 									(blockTex_struct){2,1},
 									(blockTex_struct){3,1},
 									(blockTex_struct){4,1},
-									(blockTex_struct){0,0},
-									(blockTex_struct){0,0},
-									(blockTex_struct){0,0},
-									(blockTex_struct){0,0},
-									(blockTex_struct){0,0},
-									(blockTex_struct){0,0},
+									(blockTex_struct){2,2}, /* coal ore */
+									(blockTex_struct){1,2}, /* iron ore */
+									(blockTex_struct){0,2}, /* gold ore */
+									(blockTex_struct){3,3}, /* redstone ore */
+									(blockTex_struct){2,3}, /* diamond ore */
+									(blockTex_struct){0,10}, /* lapis ore */
 									(blockTex_struct){0,0},
 									(blockTex_struct){0,0},
 									(blockTex_struct){0,0},
@@ -328,12 +328,12 @@ const block_struct blocks[]={(block_struct){0,0,0},
 							(block_struct){52,52,52},
 							(block_struct){53,53,53},
 							(block_struct){54,54,54},
-							(block_struct){0,0,0},
-							(block_struct){0,0,0},
-							(block_struct){0,0,0},
-							(block_struct){0,0,0},
-							(block_struct){0,0,0},
-							(block_struct){0,0,0},
+							(block_struct){55,55,55}, /* coal ore */
+							(block_struct){56,56,56}, /* iron ore */
+							(block_struct){57,57,57}, /* gold ore */
+							(block_struct){58,58,58}, /* redstone ore */
+							(block_struct){59,59,59}, /* diamond ore */
+							(block_struct){60,60,60}, /* lapis ore */
 							(block_struct){0,0,0},
 							(block_struct){0,0,0},
 							(block_struct){0,0,0},
