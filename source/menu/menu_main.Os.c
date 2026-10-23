@@ -26,20 +26,6 @@ void Menu_SelectScheme(API_Entity* e);
 void drawLogo(void);
 void saveSettings(void);
 
-/* Draw the already-bound logo texture as a screen-facing quad. */
-void drawLogo(void)
-{
-	glBegin(GL_QUADS);
-		glTexCoord2t16(0, 0); glVertex3v16(-128, -96, 0);
-		glTexCoord2t16(0, inttot16(1)); glVertex3v16(-128, 96, 0);
-		glTexCoord2t16(inttot16(1), inttot16(1)); glVertex3v16(128, 96, 0);
-		glTexCoord2t16(inttot16(1), 0); glVertex3v16(128, -96, 0);
-	glEnd();
-}
-
-/* Settings persistence is not present in this fork yet; keep the callback
- * safe until the settings file implementation is restored. */
-void saveSettings(void) {}
 
 filelist_struct worldList, packList;
 
