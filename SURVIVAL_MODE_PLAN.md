@@ -148,3 +148,9 @@ This section records the user's requested feature scope. It is a target, not a c
 ### ROM build status
 - The repository has a GitHub Actions workflow intended to compile an `.nds` and upload it as the `dscraft-nds` artifact.
 - A successful CI compile would only verify that the current source builds; it would not mean the whole roadmap above is implemented or tested on a real DSi.
+
+
+### Additional requested blocks: chest and ladders
+- **One shared chest type** usable with all five wood families; do not create five separate chest variants.
+- **Ladders** as a climbable block, reusing the existing ladder movement behavior if available.
+- Confirm both blocks have unique IDs, valid atlas tiles, inventory entries, placement/removal support, and save/load compatibility before calling them complete.
