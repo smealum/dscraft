@@ -2932,24 +2932,13 @@ void writeMapHeader(map_struct* m)
 	m->header->spawnY=Player.position.y/(rTilesize2)+(SUPERCLUSTERSIZE/2+m->offset.y)*CLUSTERSIZE;
 	m->header->spawnZ=Player.position.z;
 	NOGBA("player pos : %d %d",m->header->spawnX,m->header->spawnY);
-	switch(fsFormat)
+	/* Current builds use the stdio-backed map file. */
+	if(m->fileHandle)
 	{
-		case 1:
-			writeSectors(m->headerMap[0], 4, (u8*)m->header);
-			break;
-		case 2:
-			writeSectors(m->headerMap[0], 2, &(((u8*)m->header)[0]));
-			writeSectors(m->headerMap[1], 2, &(((u8*)m->header)[1024]));
-			break;
-		case 3:
-			writeSectors(m->headerMap[0], 1, &(((u8*)m->header)[0]));
-			writeSectors(m->headerMap[1], 1, &(((u8*)m->header)[512]));
-			writeSectors(m->headerMap[2], 1, &(((u8*)m->header)[1024]));
-			writeSectors(m->headerMap[3], 1, &(((u8*)m->header)[1024+512]));
-			break;
-		case 0:
-			NOGBA("writing header !");
-			break;
+		FILE* fp=(FILE*)m->fileHandle;
+		fseek(fp, 0, SEEK_SET);
+		fwrite(m->header, 2048, 1, fp);
+		fflush(fp);
 	}
 }
 
