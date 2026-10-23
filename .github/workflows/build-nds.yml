@@ -26,11 +26,6 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v4
 
-      - name: Install Nintendo DS development libraries
-        run: |
-          dkp-pacman -Sy --noconfirm
-          dkp-pacman -S --noconfirm nds-dev
-
       - name: Build ROM
         run: make -j2
 
