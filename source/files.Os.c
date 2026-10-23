@@ -109,7 +109,7 @@ void* DS_OpenFile2 (char* filename, char* dir, bool binary)
 	FILE* file;
 	DS_Debug("opening %s...",filename);
 	
-		if(binary==false)file = fopen(filename, "r+");
+		if(binary==false)file = fopen(filename, "r");
 		else file = fopen(filename, "rb");
 	
 	DS_Debug("done.");
