@@ -1,3 +1,4 @@
+#include "engine/screenshot.h"
 #include "common/general.h"
 #include "common/bmp.h"
 
