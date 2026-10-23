@@ -148,12 +148,7 @@ void Game_Init(void)
 	initPlayer(&Player);
 	#ifdef SURVIVAL
 		initMobs();
-		addMob(&map, Player.position, 0);
-		addMob(&map, Player.position, 0);
-		addMob(&map, Player.position, 0);
-		addMob(&map, Player.position, 0);
-		addMob(&map, Player.position, 0);
-		addMob(&map, Player.position, 0);
+		/* Keep the initial active mob count low for DS memory and frame time. */
 		addMob(&map, Player.position, 0);
 		addMob(&map, Player.position, 0);
 		addMob(&map, Player.position, 0);
