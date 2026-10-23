@@ -119,3 +119,32 @@ The intended storage model for a large world is **streamed world data on SD, act
 ### Current limitation
 
 The streaming-window structure already exists in the legacy engine, but this does **not** by itself create a generated 1024x1024 world. The current startup path opens an existing map via `loadTestMap()`, and the vertical dimension is still hard-coded to 16 in its `initMap()` call. A 1024x1024 world requires a compatible map file/header, tested edge-window updates and persistence, plus a generation or conversion path. No ROM build or runtime test has been performed for this design.
+
+
+## Requested wood sets, Mushroom Island, and custom textures
+
+This section records the user's requested feature scope. It is a target, not a claim that these features are already implemented.
+
+### Five complete wood families
+- Oak, spruce, birch, jungle, and acacia.
+- Each family should have logs and planks, plus matching fences, slabs, stairs, and chests.
+- Fences need their own connected/isolated shape behavior; slabs need half-height geometry and correct collision; stairs need step geometry and collision. These are not complete if implemented as ordinary full cubes.
+- Chests need a placeable block, a stable saved state, and an inventory/container interface only if the memory and UI budget permits it.
+- Reserve unique block/item IDs and texture tiles only after checking existing IDs, save compatibility, inventory capacity, and atlas dimensions. Do not reuse a texture coordinate for two different wood types as a final implementation.
+
+### Mushroom Fields / Mushroom Island
+- Add a deterministic Mushroom Fields biome with mycelium ground, red and brown mushrooms, giant mushroom cap/stem blocks, and mushroom-covered terrain features.
+- Generate island-like terrain surrounded by ocean only after a seeded world-generation entry point exists; the current startup opens an existing map, so this cannot appear from documentation or block IDs alone.
+- Add mooshrooms as a later mob variant if the existing mob model/texture and entity limits can support it.
+- Use bounds checks and deterministic seed/region rules so streamed columns do not create duplicate mushrooms or mismatched biome edges.
+
+### User-editable texture workflow
+- Provide a numbered texture-atlas template that matches the engine's actual atlas dimensions, tile coordinates, color depth, and conversion pipeline.
+- Include a tile map for existing blocks and reserved entries for the requested wood families and Mushroom Fields blocks.
+- Keep source artwork editable (for example, PNG template plus a tile-index legend); convert it to the game's required runtime format during asset preparation/build.
+- Do not claim arbitrary PNG files load directly unless the texture loader actually supports them.
+- Use original or appropriately licensed artwork; the user should be able to replace the artwork without editing C source when IDs/layout remain unchanged.
+
+### ROM build status
+- The repository has a GitHub Actions workflow intended to compile an `.nds` and upload it as the `dscraft-nds` artifact.
+- A successful CI compile would only verify that the current source builds; it would not mean the whole roadmap above is implemented or tested on a real DSi.
