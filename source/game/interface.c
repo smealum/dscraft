@@ -44,8 +44,9 @@ u8 itemBar[]={1,3,4,13,6,7,8,11,12}; //water test
 // u8 inventoryItem[]={14,15,16,17,18,19,20,21,22,
 					// 23,24,25,26,27,28,29,30,31,
 					// 32,33,34,35,36,37,38,39,2};
-u8 inventoryItem[]={14,15,16,17,18,19,20,21,22,
-					23,24,25,26,27,28,29,30,31,
+/* Wood variants occupy existing inventory slots to keep the DS UI fixed-size. */
+u8 inventoryItem[]={60,61,62,63,64,65,66,67,68,
+					69,24,25,26,27,28,29,30,31,
 					32,33,34,35,36,40,DOORTYPE,39,2};
 u8 inventoryItems=27;
 
