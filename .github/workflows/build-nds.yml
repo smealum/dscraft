@@ -25,9 +25,7 @@ jobs:
       - name: Install devkitPro Nintendo DS toolchain
         uses: devkitPro/pacman-action@v1
         with:
-          packages: |
-            nds-dev
-            nds-sdl
+          packages: nds-dev
 
       - name: Build ROM
         run: make
