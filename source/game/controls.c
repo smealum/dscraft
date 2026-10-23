@@ -394,6 +394,13 @@ void updateControls(void)
 		scanKeys();
 		tempAngle=(vect3D){0,0,0};
 		u16 keys = keysHeld();
+		/* Hold SELECT and tap UP/DOWN to zoom without adding a costly render pass. */
+		if(keys & KEY_SELECT)
+		{
+			if(keysDown() & KEY_UP) { if(gameCameraFov > 45) gameCameraFov -= 5; }
+			if(keysDown() & KEY_DOWN) { if(gameCameraFov < 70) gameCameraFov += 5; }
+			keys &= ~(KEY_UP | KEY_DOWN);
+		}
 		if(!noclip && !Player.inWater && !Player.onLadder)
 		{
 			// if((keysDown() & KEY_A)) {Player.vector.z += 1400;}
@@ -418,17 +425,20 @@ void updateControls(void)
 		if((keysDown() & KEY_START)) {DS_ChangeState(&Menu_State);}
 		if(oldwAngle!=walkSfx && ((walkSfx)>=10) && !Player.vector.z){mmEffect(SFX_STEP);walkSfx=0;}
 		oldwAngle=walkSfx;
-		switch(gameSettings.controls)
+		if(!(keys & KEY_SELECT))
 		{
-			case 1:
-				controlScheme2();
-				break;
-			case 2:
-				controlScheme3();
-				break;
-			default:
-				controlScheme1();
-				break;
+			switch(gameSettings.controls)
+			{
+				case 1:
+					controlScheme2();
+					break;
+				case 2:
+					controlScheme3();
+					break;
+				default:
+					controlScheme1();
+					break;
+			}
 		}		
 	}
 	
