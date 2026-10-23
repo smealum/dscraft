@@ -1,0 +1,41 @@
+name: Build Nintendo DS ROM
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - survival-features
+    paths:
+      - '**.c'
+      - '**.h'
+      - 'Makefile'
+      - 'data/**'
+      - 'include/**'
+      - 'source/**'
+      - 'nitrofiles/**'
+      - '.github/workflows/build-nds.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install devkitPro Nintendo DS toolchain
+        uses: devkitPro/pacman-action@v1
+        with:
+          packages: |
+            nds-dev
+            nds-sdl
+
+      - name: Build ROM
+        run: make
+
+      - name: Upload ROM
+        uses: actions/upload-artifact@v4
+        with:
+          name: dscraft-nds
+          path: '*.nds'
+          if-no-files-found: error
+          retention-days: 14
