@@ -68,8 +68,8 @@ void* DS_OpenFile (char* filename, char* dir, bool bufferize, bool binary)
 	FILE* file;
 	NOGBA("opening %s...",filename);
 	
-	if(binary==false)file = fopen(filename, "r+");
-	else file = fopen(filename, "rb+");
+	if(binary==false)file = fopen(filename, "r");
+	else file = fopen(filename, "rb");
 	//DS_Debug("done.");
 	
 	if(file == NULL)
@@ -110,7 +110,7 @@ void* DS_OpenFile2 (char* filename, char* dir, bool binary)
 	DS_Debug("opening %s...",filename);
 	
 		if(binary==false)file = fopen(filename, "r+");
-		else file = fopen(filename, "rb+");
+		else file = fopen(filename, "rb");
 	
 	DS_Debug("done.");
 	
