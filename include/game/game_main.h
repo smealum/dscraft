@@ -1,6 +1,8 @@
 #ifndef __GAMEMAIN9__
 #define __GAMEMAIN9__
 
+extern int gameCameraFov;
+
 int Game_FPS, Game_FrameCount, Game_VBLcount;
 
 #include "common/general.h"
