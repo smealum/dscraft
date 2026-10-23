@@ -104,7 +104,7 @@ void Game_Init(void)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	// gluPerspective(70, 256.0 / 192.0, 0.1, 100);
-	gluPerspective(70, 256.0 / 192.0, 0.1, 10000);
+	gluPerspective(gameCameraFov, 256.0 / 192.0, 0.1, 10000);
 	
 	gluLookAt(	0.0, 0.0, 0.0,		//camera possition
 				0.0, 1.0, 0.0,		//look at
@@ -195,7 +195,7 @@ void Game_Frame(void)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(70, 256.0 / 192.0, 0.1, 10000);
+	gluPerspective(gameCameraFov, 256.0 / 192.0, 0.1, 10000);
 				
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
