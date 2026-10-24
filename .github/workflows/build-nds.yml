@@ -1,0 +1,39 @@
+name: Build original DScraft
+on:
+  push:
+    branches:
+      - dscraft-original-rebuild
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkitarm:latest
+    steps:
+      - name: Check out original source
+        uses: actions/checkout@v4
+      - name: Verify Nintendo DS toolchain
+        shell: bash
+        run: |
+          set -euxo pipefail
+          test -x "$DEVKITARM/bin/arm-none-eabi-gcc"
+          test -f "$DEVKITARM/ds_rules"
+          command -v mmutil
+          echo "$DEVKITARM/bin" >> "$GITHUB_PATH"
+          echo "$DEVKITPRO/tools/bin" >> "$GITHUB_PATH"
+          "$DEVKITARM/bin/arm-none-eabi-gcc" --version
+      - name: Build ROM from untouched master source
+        run: make
+      - name: Verify ROM exists
+        shell: bash
+        run: |
+          set -euxo pipefail
+          find . -maxdepth 1 -type f -name '*.nds' -size +0c -print -quit | grep .
+      - name: Upload ROM
+        uses: actions/upload-artifact@v4
+        with:
+          name: dscraft-original-nds
+          path: "*.nds"
+          if-no-files-found: error
+          retention-days: 14
