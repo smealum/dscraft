@@ -25,7 +25,9 @@
 #include <malloc.h>
 #include <unistd.h>
 
+#ifdef SURVIVAL
 #include "creeper_bin.h"
+#endif
 
 #include "fat/fatfile.h"
 
